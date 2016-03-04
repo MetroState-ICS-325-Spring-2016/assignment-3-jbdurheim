@@ -4,7 +4,7 @@
 // Since we are using MySQL running on the same computer as your
 // PHP code, you would use either 127.0.0.1 or localhost.  Both
 // are reserved in the IP protocol to refer to this system (the local computer).
-$db_hostname = '127.0.0.1';
+$db_hostname = 'localhost';
 
 // A username is required to connec to MySQL.  Be default, the root
 // user is the only user.  If you install XAMPP with default options,
@@ -48,14 +48,16 @@ if ($mysql_connection->connect_errno) {
 //
 // For your query, you will need to join the customers and employees
 // tables together.
-$query_result = $mysql_connection->query("SELECT your query here");
+//read in the contents of the Question_6.sql file to get the SQL query text
+$sql_statement =  file_get_contents("Question_6.sql");
+$query_result = $mysql_connection->query($sql_statement);
 
 // Make sure there wasn't an error with the query.
 if ($query_result !== false) {
     // Fetch each row of the query result as an associative array.
     // http://php.net/manual/en/mysqli-result.fetch-assoc.php
     while($row_array = $query_result->fetch_assoc()) {
-	    // Your output goes here
+        echo $row_array["customerName"]. ", " . $row_array["country"]." - " . $row_array["firstName"] . " " . $row_array["lastName"] . "\n";
     }
 
     // We're done with the query result set, so free it.
